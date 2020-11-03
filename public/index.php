@@ -26,15 +26,15 @@ $this->code = $code;
 public function echoPriceTag()
 {
 echo <<<php
-<h1> {$this->name} </h1>
-<p> {$this->price} </p>
-<img src="{$this->code}" width="100px">
+        <h1> {$this->name} </h1>
+        <p> {$this->price} </p>
+        <img src="{$this->code}" width="100px">
 php;
 }
 }
 
 // класс для создания ценников со скидкой
-// не уверен насколько он нужен именно как отдельный класс
+// (не уверен насколько он нужен именно как отдельный класс)
 class SalePriceTag extends PriceTag
 {
 
