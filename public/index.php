@@ -2,17 +2,20 @@
 include dirname(__DIR__) . '/services/Autoload.php';
 spl_autoload_register([(new App\services\Autoload()), 'loadClass']);
 
+$user = new \App\models\User();
 
-$db = new \App\services\DB();
-$user = new \App\models\User($db);
-$order = new \App\models\Order($db);
-$category = new \App\models\Category($db);
-$goodImage = new \App\models\GoodImage($db);
-$good = new \App\models\Good($db);
+$user->login = 'ytrq123';
+$user->password = 'ddd3';
+$user->id = 61;
 
-echo $user->getOne(12);
-echo $order->getAll();
-echo $category->getOne(12);
-echo $goodImage->getOne(12);
-echo $good->getOne(12);
+$user->save();
 
+$good = new \App\models\Good();
+
+$good->price = 1000;
+$good->name = 'NEW ONE';
+$good->id = 5;
+
+$good->save();
+
+$good->delete();
