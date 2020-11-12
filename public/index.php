@@ -9,10 +9,3 @@ $order = new \App\models\Order($db);
 $category = new \App\models\Category($db);
 $goodImage = new \App\models\GoodImage($db);
 $good = new \App\models\Good($db);
-
-echo $user->getOne(12);
-echo $order->getAll();
-echo $category->getOne(12);
-echo $goodImage->getOne(12);
-echo $good->getOne(12);
-
