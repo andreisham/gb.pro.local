@@ -23,12 +23,12 @@ abstract class Model
     {
         $params = [];
         foreach ($this as $key => $value) {
-            if (!isset($value) || $key != 'id') {
-                echo "INSERT {$key} => {$value} <br>";
-                $fields[] = $key;
-                $placeholder = ":" . $key;
-                $params[$placeholder] = $value;
+            if (!isset($value) || $key == 'id') {
+                continue;
             }
+            $fields[] = $key;
+            $placeholder = ":" . $key;
+            $params[$placeholder] = $value;
         }
         $sql = sprintf(
             "INSERT INTO %s (%s) VALUES (%s)",
@@ -42,16 +42,23 @@ abstract class Model
     protected function update()
     {
         foreach ($this as $key => $value) {
-            echo "UPDATE_PDO {$key} => {$value} <br>" ;
-            $params = [$value];
-            $sql = "UPDATE {$this->getTableName()} SET $key = ? WHERE id = $this->id";
+            if (!isset($value) || $key == 'id') {
+                continue;
+            }
+            $params = [];
+            $placeholder = ":" . $key;
+            $params[$placeholder] = $value;
+            $sql = sprintf("UPDATE %s SET %s = %s WHERE id = $this->id",
+                $this->getTableName(),
+                $key,
+                $placeholder
+            );
             $this->getDB()->exec($sql, $params);
         }
     }
 
     public function delete()
     {
-        echo "DELETE from {$this->getTableName()} where id = $this->id" ;
         $sql = "delete from {$this->getTableName()} where id = $this->id;";
         return $this->getDB()->exec($sql);
     }

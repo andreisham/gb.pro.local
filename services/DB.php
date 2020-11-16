@@ -60,7 +60,6 @@ class DB implements IDB
     {
         return $this->query($sql, $params);
     }
-    // методы получения обьектов вместо массивов
     public function getOneObject($sql, $className, $params = [])
     {
         $PDOStatment = $this->query($sql, $params);
@@ -73,5 +72,8 @@ class DB implements IDB
         $PDOStatment->setFetchMode(\PDO::FETCH_CLASS, $className);
         return $PDOStatment->fetchAll();
     }
-
+    public function redirect(string $url)
+    {
+        header("Location: {$url}");
+    }
 }

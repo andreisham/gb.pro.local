@@ -2,6 +2,7 @@
 namespace App\controllers;
 
 use App\models\User;
+use App\services\DB;
 
 class UserController
 {
@@ -47,6 +48,31 @@ class UserController
                 'users' => (new User())->getAll()
             ]
         );
+    }
+    public function addAction()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'GET'){
+            return $this->render('user_add');
+        }
+        $user = new User();
+        $user->login = $_POST['login'];
+        $user->password = $_POST['password'];
+        $user->save();
+        (new DB)->redirect('/?c=user&a=all');
+    }
+    public function editAction()
+    {
+        $id = (int) $_GET['id'];
+        if ($_SERVER['REQUEST_METHOD'] == 'GET'){
+            return $this->render('user_edit',
+                ['user' => (new User())->getOne($id)]);
+        }
+        $user = new User();
+        $user->login = $_POST['login'];
+        $user->password = $_POST['password'];
+        $user->id = $id;
+        $user->save();
+        (new DB)->redirect("/?c=user&a=one&id={$id}");
     }
     protected function render($template, $params = [])
     {
