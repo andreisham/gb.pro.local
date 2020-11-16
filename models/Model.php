@@ -10,45 +10,36 @@ abstract class Model
     public function getAll()
     {
         $sql = "SELECT * FROM {$this->getTableName()}";
-        return $this->getDB()->getAll($sql);
+        return $this->getDB()->getAllObjects($sql,static::class);
     }
     public function getOne(int $id)
     {
         $sql = "SELECT * FROM {$this->getTableName()} WHERE id = :id";
         $params = [':id' => $id];
-        return $this->getDB()->getOne($sql, $params);
+        return $this->getDB()->getOneObject($sql,static::class, $params);
     }
 
     protected function insert()
     {
         $params = [];
         foreach ($this as $key => $value) {
-            echo "INSERT {$key} => {$value} <br>" ;
-            $fields[] = "{$key}";
-            $params[] = $value;
+            if (!isset($value) || $key != 'id') {
+                echo "INSERT {$key} => {$value} <br>";
+                $fields[] = $key;
+                $placeholder = ":" . $key;
+                $params[$placeholder] = $value;
+            }
         }
-        $fields = implode(", ", $fields);
-        // здесь хорошо бы сделать так, чтоб количество '?' в поле VALUES менялось в зависимости от количества вставляемых полей
-        $sql = "INSERT INTO {$this->getTableName()} ({$fields}) VALUES (?,?,?)";
+        $sql = sprintf(
+            "INSERT INTO %s (%s) VALUES (%s)",
+            $this->getTableName(),
+            implode(", ", $fields),
+            implode(',', array_keys($params))
+        );
         return $this->getDB()->exec($sql, $params);
     }
 
-    // вариант без использования PDO (подобный метод делали на базовом курсе)
     protected function update()
-    {
-        $update_fields = [];
-        foreach ($this as $key => $value) {
-            echo "UPDATE {$key} => {$value} <br>" ;
-            $value = is_numeric($value) ? $value : "'$value'";
-            $update_fields[] = "{$key} = {$value}";
-        }
-        $update_fields = implode(", ", $update_fields);
-        $sql = "UPDATE {$this->getTableName()} SET {$update_fields} WHERE id = $this->id";
-        return $this->getDB()->exec($sql);
-    }
-
-    // вариант с использованием PDO
-    protected function update_PDO()
     {
         foreach ($this as $key => $value) {
             echo "UPDATE_PDO {$key} => {$value} <br>" ;
@@ -70,7 +61,7 @@ abstract class Model
         if (empty($this->id)) {
             return $this->insert();
         }
-        return $this->update_PDO();
+        return $this->update();
     }
 
     protected function getDB(): DB
