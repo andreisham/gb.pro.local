@@ -18,3 +18,4 @@ if (!class_exists($controllerName)){
 }
 $controllerObject = new $controllerName();
 echo $controllerObject->run($action);
+
