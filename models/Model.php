@@ -36,25 +36,30 @@ abstract class Model
             implode(", ", $fields),
             implode(',', array_keys($params))
         );
-        return $this->getDB()->exec($sql, $params);
+        $this->getDB()->exec($sql, $params);
+        $this->id = $this->getDB()->getLastId();
     }
 
     protected function update()
     {
+        $params = [];
+        $fields = [];
         foreach ($this as $key => $value) {
-            if (!isset($value) || $key == 'id') {
+            if (!isset($value)) {
                 continue;
             }
-            $params = [];
             $placeholder = ":" . $key;
             $params[$placeholder] = $value;
-            $sql = sprintf("UPDATE %s SET %s = %s WHERE id = $this->id",
-                $this->getTableName(),
-                $key,
-                $placeholder
-            );
-            $this->getDB()->exec($sql, $params);
-        }
+            if ($key == 'id'){
+                continue;
+            }
+            $fields[] = "$key = $placeholder";
+            }
+        $sql = sprintf("UPDATE %s SET %s WHERE id = :id",
+            $this->getTableName(),
+            implode(',', $fields)
+        );
+        $this->getDB()->exec($sql, $params);
     }
 
     public function delete()
