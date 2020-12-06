@@ -60,4 +60,20 @@ class DB implements IDB
     {
         return $this->query($sql, $params);
     }
+    public function getOneObject($sql, $className, $params = [])
+    {
+        $PDOStatment = $this->query($sql, $params);
+        $PDOStatment->setFetchMode(\PDO::FETCH_CLASS, $className);
+        return $PDOStatment->fetch();
+    }
+    public function getAllObjects($sql, $className, $params = [])
+    {
+        $PDOStatment = $this->query($sql, $params);
+        $PDOStatment->setFetchMode(\PDO::FETCH_CLASS, $className);
+        return $PDOStatment->fetchAll();
+    }
+    public function redirect(string $url)
+    {
+        header("Location: {$url}");
+    }
 }
