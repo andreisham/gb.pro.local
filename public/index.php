@@ -11,11 +11,11 @@ if(!empty($_GET['a'])){
     $action = trim($_GET['a']);
 }
 
-$controllerName = 'App\\controllers\\' . ucfirst($controller) . 'Controller';
-if (!class_exists($controllerName)){
-    echo "404_c";
-    return;
-}
-$controllerObject = new $controllerName();
-echo $controllerObject->run($action);
+
+$db = new \App\services\DB();
+$user = new \App\models\User($db);
+$order = new \App\models\Order($db);
+$category = new \App\models\Category($db);
+$goodImage = new \App\models\GoodImage($db);
+$good = new \App\models\Good($db);
 
