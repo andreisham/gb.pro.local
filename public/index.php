@@ -4,18 +4,11 @@ spl_autoload_register([(new App\services\Autoload()), 'loadClass']);
 
 $user = new \App\models\User();
 
-$user->login = 'ytrq123';
-$user->password = 'ddd3';
-$user->id = 61;
 
-$user->save();
+$db = new \App\services\DB();
+$user = new \App\models\User($db);
+$order = new \App\models\Order($db);
+$category = new \App\models\Category($db);
+$goodImage = new \App\models\GoodImage($db);
+$good = new \App\models\Good($db);
 
-$good = new \App\models\Good();
-
-$good->price = 1000;
-$good->name = 'NEW ONE';
-$good->id = 5;
-
-$good->save();
-
-$good->delete();
