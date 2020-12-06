@@ -1,0 +1,11 @@
+{% extends "layouts/main.twig" %}
+{% block title %}Index{% endblock %}
+
+{% block content %}
+    <p>Изменение товара</p>
+    <form action="" method="post">
+        <input type="text" value="{{ good.name }}" name="name">
+        <input type="number" value="{{ good.price }}" name="price">
+        <input type="submit">
+    </form>
+{% endblock %}

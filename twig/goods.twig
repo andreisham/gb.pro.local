@@ -1,0 +1,12 @@
+{% extends "layouts/main.twig" %}
+{% block title %}Index{% endblock %}
+
+{% block content %}
+    <h2>{{ title }}</h2>
+    {% for good in goods %}
+        <a href="/?c=good&a=one&id={{good.id}}">Название: {{ good.name }} </a> <br>
+        Описание: {{ good.info }} <br>
+        Цена: {{ good.price }}
+        <hr>
+    {% endfor %}
+{% endblock %}

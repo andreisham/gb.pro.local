@@ -1,0 +1,29 @@
+{% extends "layouts/main.twig" %}
+{% block title %}Index{% endblock %}
+
+{% block content %}
+    <h2>Карточка товара</h2>
+    Название: {{ good.name }} <br>
+    Описание: {{ good.info }} <br>
+    Цена:{{ good.price }} <br>
+    <img src="/img/{{goodImage.path}}" alt="" width="400px"><br>
+    {% if user.is_admin == "1" %}
+        <a href="/?c=good&a=edit&id={{good.id}}">Изменить товар</a> <br>
+        <a href="/?c=good&a=del&id={{good.id}}">Удалить товар</a>
+    {% endif %}
+    <h2>Комментарии</h2>
+    {%  for review in reviews %}
+        <div>
+            <h2>{{ review.author }}</h2>
+            <p>{{ review.text }}</p>
+            <p>{{ review.created_at }}</p>
+            <hr>
+        </div>
+    {% endfor %}
+    <form action="" method="post" enctype="multipart/form-data">
+        <h2>Напишите рецензию</h2>
+        <input type="text" name="author" style="display: block;">
+        <textarea name="text" cols="30" rows="10"></textarea>
+        <input type="submit" style="display: block;">
+    </form>
+{% endblock %}

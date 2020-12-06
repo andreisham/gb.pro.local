@@ -72,10 +72,7 @@ class DB implements IDB
         $PDOStatment->setFetchMode(\PDO::FETCH_CLASS, $className);
         return $PDOStatment->fetchAll();
     }
-    public function redirect(string $url)
-    {
-        header("Location: {$url}");
-    }
+
     public function getLastId()
     {
         return $this->getConnect()->lastInsertId();

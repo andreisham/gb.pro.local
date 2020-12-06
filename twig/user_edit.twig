@@ -1,0 +1,11 @@
+{% extends "layouts/main.twig" %}
+{% block title %}Index{% endblock %}
+
+{% block content %}
+    <p>Изменение пользователя</p>
+    <form action="" method="post">
+        <input type="text" value="{{ user.login }}" name="login">
+        <input type="password" name="password">
+        <input type="submit">
+    </form>
+{% endblock %}
