@@ -1,6 +1,6 @@
 <?php
-include dirname(__DIR__) . '/services/Autoload.php';
-spl_autoload_register([(new App\services\Autoload()), 'loadClass']);
+session_start();
+include dirname(__DIR__) . '/vendor/autoload.php'; // автозагрузчик от twig
 
 $controller = 'user';
 if(!empty($_GET['c'])){

@@ -5,21 +5,9 @@ use App\models\Good;
 use App\models\User;
 use App\services\DB;
 
-class GoodController
+class GoodController extends Controller
 {
-    protected $defaultAction = 'index';
 
-    public function run($action)
-    {
-        if(empty($action)){
-            $action= $this->defaultAction;
-        }
-        $action .= 'Action';
-        if(!method_exists($this, $action)){
-            return '404';
-        }
-        return $this->$action();
-    }
     public function indexAction()
     {
         return $this->render(
@@ -73,6 +61,7 @@ class GoodController
         $good->price = $_POST['price'];
         $good->id = $id;
         $good->save();
+        $this->setMSG('Товар добавлен');
         (new DB)->redirect("/?c=good&a=one&id={$id}");
     }
     public function delAction()
@@ -81,20 +70,8 @@ class GoodController
         $good = new Good();
         $good->id = $id;
         $good->delete();
+        $this->setMSG('Товар обновлен');
         (new DB)->redirect("/?c=good&a=all");
     }
-    protected function render($template, $params = [])
-    {
-        $content = $this->renderTmpl($template, $params);
-        return $this->renderTmpl(
-            'layouts/main',
-            ['content' => $content]);
-    }
-    protected function renderTmpl($template, $params = [])
-    {
-        ob_start();
-        extract($params);
-        include dirname(__DIR__) . '/views/' . $template . '.php';
-        return ob_get_clean();
-    }
+
 }

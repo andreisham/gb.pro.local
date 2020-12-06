@@ -76,4 +76,8 @@ class DB implements IDB
     {
         header("Location: {$url}");
     }
+    public function getLastId()
+    {
+        return $this->getConnect()->lastInsertId();
+    }
 }

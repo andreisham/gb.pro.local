@@ -5,6 +5,7 @@
     <title>Document</title>
 </head>
 <body>
+<p style="color: red"><?= $message ?></p>
 <ul>
     <li><a href="/?c=user&a=index">Главная</a></li>
     <li><a href="/?c=user&a=all">Все пользователи</a></li>

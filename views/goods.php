@@ -7,6 +7,7 @@
 
 <?php foreach ($goods as $good) : ?>
     <a href="/?c=good&a=one&id=<?=$good->id?>">Название: <?= $good->name ?></a> <br>
+    Описание: <?= $good->info ?> <br>
     Цена: <?= $good->price ?>
     <hr>
 <?php endforeach; ?>
