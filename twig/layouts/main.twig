@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Мой магазин{% endblock %}</title>
+</head>
+<body>
+<p style="color: red">{{ msg }}</p>
+<ul>
+    {{ menu|raw }}
+</ul>
+{% block content %}{% endblock %}
+</body>
+</html>
